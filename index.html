@@ -9,11 +9,13 @@
     <input style="font-size: 20px;" type="text" id="nums" required>
     <button id="submitBtn">Generate</button>
 
+    <h4 id="time"></h4>
     <h2 id="res"></h6>
     <button id="copyBtn" style="display: none;">Copy</button>
     <script>
         const btn = document.getElementById('submitBtn');
         const copyBtn = document.getElementById('copyBtn');
+        const time = document.getElementById('time');
         const result = document.getElementById('res');
 
         btn.addEventListener('click', () => {
@@ -28,8 +30,15 @@
                     count += 1;
                 }
             }
+
+            const hourArr = ['09', '10', '11', '12', '13', '14', '15', '16', '17'];
+            const minArr = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59'];
+
+            const hh = hourArr[Math.floor(Math.random()*hourArr.length)];
+            const mm = minArr[Math.floor(Math.random()*minArr.length)];
             
             result.innerText = res.join(' ');
+            time.innerText = `${hh}:${mm}`;
             copyBtn.style.display = 'block';
         });
 

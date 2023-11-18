@@ -6,27 +6,54 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <label>Priority: </label>
+    <div style="margin-bottom: 16px;">
+        <label style="display: inline-block; width: 60px;">Priority: </label>
         <input style="font-size: 20px;" type="text" id="priority">
     </div>
-    <input style="font-size: 20px;" type="text" id="nums" value="20">
+    <div style="margin-bottom: 16px;">
+      <label style="display: inline-block; width: 60px;">Amount: </label>
+      <input style="font-size: 20px;" type="text" id="nums" value="20">
+    </div>
 
-    <button id="numbersBtn">Numbers</button>
-    <button id="timeBtn">Time</button>
+    <button id="numbersBtn" style="width: 120px; height: 40px;">Numbers</button>
+    <button id="timeBtn" style="width: 120px; height: 40px; margin-bottom: 16px;">Time</button>
 
-    <h4 id="time"></h4>
-    <h2 id="res"></h6>
+    <div style="display: flex; align-items: center;">
+      <label style="display: inline-block; width: 80px;">Time: </label>
+      <h4 id="time"></h4>
+    </div>
+    <div style="display: flex; align-items: center;">
+      <label style="display: inline-block; width: 80px;">Numbers: </label>
+      <h2 id="res"></h2>
+    </div>
 
     <button id="copyBtn" style="display: none;">Copy</button>
 
     <script>
+
+        if (localStorage.date && +localStorage.date < +(new Date().getDate())) localStorage.clear();
+
+        localStorage.setItem("date", new Date().getDate());
+
+        const timeData = localStorage.time ? JSON.parse(localStorage.time) : {};
+        const numbersData = localStorage.numbers ? JSON.parse(localStorage.numbers) : {};
+
         const numbersBtn = document.getElementById('numbersBtn');
         const timeBtn = document.getElementById('timeBtn');
         const copyBtn = document.getElementById('copyBtn');
         const time = document.getElementById('time');
         const result = document.getElementById('res');
         const priorityInput = document.getElementById('priority');
+
+        const timeBtnDisabled = new Date().getHours() >= 12 || (timeData.value && timeData.date == new Date().getDate());
+        const numbersBtnDisabled = new Date().getHours() >= 12 || (numbersData.value && numbersData.date == new Date().getDate());
+
+        timeBtn.disabled = timeBtnDisabled;
+        numbersBtn.disabled = numbersBtnDisabled;
+        time.innerText = timeData.value || '---';
+        result.innerText = numbersData.value || '---';
+
+        copyBtn.style.display = numbersData.value ? 'block' : 'none';
 
         numbersBtn.addEventListener('click', () => {
             const nums = document.getElementById('nums').value;
@@ -42,16 +69,19 @@
             }
             result.innerText = res.join(' ');
             copyBtn.style.display = 'block';
+            localStorage.setItem("numbers", JSON.stringify({ value: res.join(' '), date: new Date().getDate() }));
         });
 
         timeBtn.addEventListener('click', () => {
-            const hourArr = ['09', '10', '11', '12', '13', '14', '15', '16', '17'];
+            const hourArr = ['12', '13', '14', '15', '16', '17'];
             const minArr = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59'];
 
             const hh = hourArr[Math.floor(Math.random()*hourArr.length)];
             const mm = minArr[Math.floor(Math.random()*minArr.length)];
 
             time.innerText = `${hh}:${mm}`;
+
+            localStorage.setItem("time", JSON.stringify({ value: `${hh}:${mm}`, date: new Date().getDate() }));
         })
 
         copyBtn.addEventListener('click', async () => {

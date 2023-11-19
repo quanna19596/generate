@@ -35,8 +35,8 @@
 
         localStorage.setItem("date", new Date().getDate());
 
-        const timeData = localStorage.time ? JSON.parse(localStorage.time) : {};
-        const numbersData = localStorage.numbers ? JSON.parse(localStorage.numbers) : {};
+        const timeData = localStorage.time || '';
+        const numbersData = localStorage.numbers || '';
 
         const numbersBtn = document.getElementById('numbersBtn');
         const timeBtn = document.getElementById('timeBtn');
@@ -45,15 +45,15 @@
         const result = document.getElementById('res');
         const priorityInput = document.getElementById('priority');
 
-        const timeBtnDisabled = new Date().getHours() >= 12 || (timeData.value && timeData.date == new Date().getDate());
-        const numbersBtnDisabled = new Date().getHours() >= 12 || (numbersData.value && numbersData.date == new Date().getDate());
+        const timeBtnDisabled = new Date().getHours() >= 12 || !!timeData;
+        const numbersBtnDisabled = !!numbersData || !timeData;
 
         timeBtn.disabled = timeBtnDisabled;
         numbersBtn.disabled = numbersBtnDisabled;
-        time.innerText = timeData.value || '---';
-        result.innerText = numbersData.value || '---';
+        time.innerText = timeData || '---';
+        result.innerText = numbersData || '---';
 
-        copyBtn.style.display = numbersData.value ? 'block' : 'none';
+        copyBtn.style.display = numbersData ? 'block' : 'none';
 
         numbersBtn.addEventListener('click', () => {
             const nums = document.getElementById('nums').value;
@@ -69,7 +69,7 @@
             }
             result.innerText = res.join(' ');
             copyBtn.style.display = 'block';
-            localStorage.setItem("numbers", JSON.stringify({ value: res.join(' '), date: new Date().getDate() }));
+            localStorage.setItem("numbers", res.join(' '));
         });
 
         timeBtn.addEventListener('click', () => {
@@ -81,7 +81,7 @@
 
             time.innerText = `${hh}:${mm}`;
 
-            localStorage.setItem("time", JSON.stringify({ value: `${hh}:${mm}`, date: new Date().getDate() }));
+            localStorage.setItem("time", `${hh}:${mm}`);
         })
 
         copyBtn.addEventListener('click', async () => {

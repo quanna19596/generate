@@ -70,6 +70,7 @@
             result.innerText = res.join(' ');
             copyBtn.style.display = 'block';
             localStorage.setItem("numbers", res.join(' '));
+            numbersBtn.disabled = true;
         });
 
         timeBtn.addEventListener('click', () => {
@@ -80,8 +81,9 @@
             const mm = minArr[Math.floor(Math.random()*minArr.length)];
 
             time.innerText = `${hh}:${mm}`;
-
             localStorage.setItem("time", `${hh}:${mm}`);
+            timeBtn.disabled = true;
+            numbersBtn.disabled = false;
         })
 
         copyBtn.addEventListener('click', async () => {

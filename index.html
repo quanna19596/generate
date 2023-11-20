@@ -49,7 +49,7 @@
         const numbersBtnDisabled = !!numbersData || !timeData;
 
         timeBtn.disabled = timeBtnDisabled;
-        numbersBtn.disabled = false;
+        numbersBtn.disabled = numbersBtnDisabled;
         time.innerText = timeData || '---';
         result.innerText = numbersData || '---';
 

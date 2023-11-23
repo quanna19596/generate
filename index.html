@@ -48,7 +48,7 @@
         const timeBtnDisabled = new Date().getHours() >= 12 || !!timeData;
         const numbersBtnDisabled = !!numbersData || !timeData;
 
-        timeBtn.disabled = timeBtnDisabled;
+        timeBtn.disabled = false;
         numbersBtn.disabled = numbersBtnDisabled;
         time.innerText = timeData || '---';
         result.innerText = numbersData || '---';
